@@ -9,7 +9,11 @@ void printArray(vector<int> list);
 void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd);
 double totalArraySum(vector<int> list);
 double roundIraqiPrice(double originalPrice);
-// void printArray(auto *usedlist, int sizeOfList);
+double usdToIqd(double price)
+{
+    return (price * 1480) + 500;
+}
+void lessPrice(double cardPurchaseUsd, double globalKeyUsd);
 int main()
 {
     string gameTitle;
@@ -25,6 +29,8 @@ int main()
     leastPriceUsd(steamPriceLira, g2aGamePriceUsd);
     cout << "Enter " + gameTitle << " global key price in g2a in usd: ";
     cin >> g2aGameGlobalKeyPrice; // 33.92 usd
+    cout << "price of the global key in iraqi dinar is: " << usdToIqd(g2aGameGlobalKeyPrice) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice))<<" ";
+    lessPrice(g2aGamePriceUsd,g2aGameGlobalKeyPrice);
 }
 
 void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd)
@@ -65,10 +71,9 @@ void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd)
                 g2aGamePriceUsd += j[1];
 
     cout << "price in dollar is: " << g2aGamePriceUsd << '$' << endl;
-    double priceInIraqiDinar = (g2aGamePriceUsd * 1480) + 500;
+    double priceInIraqiDinar = usdToIqd(g2aGamePriceUsd);
     cout << "price in dinar with fee 500 dinar is: " << priceInIraqiDinar << " dinar "
-         << "rounded to " << roundIraqiPrice(priceInIraqiDinar) <<endl;
-
+         << "rounded to " << roundIraqiPrice(priceInIraqiDinar) << endl;
 }
 
 void printArray(vector<int> list)
@@ -97,7 +102,6 @@ double totalArraySum(vector<int> list)
     return sum;
 }
 
-
 double roundIraqiPrice(double originalPrice)
 {
     double price = originalPrice;
@@ -108,4 +112,16 @@ double roundIraqiPrice(double originalPrice)
     double leftPrice = 250 - price;
 
     return originalPrice + leftPrice;
+}
+
+void lessPrice(double cardPurchaseUsd, double globalKeyUsd)
+{
+    if (cardPurchaseUsd < globalKeyUsd)
+    {
+        cout << "buying the game using gift cards is the best option you can save " << globalKeyUsd - cardPurchaseUsd << "$" << endl;
+        cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(globalKeyUsd)) - roundIraqiPrice(usdToIqd(cardPurchaseUsd));
+        return;
+    }
+    cout << "buying the game using global key is the best option you can save " << cardPurchaseUsd - globalKeyUsd << "$" << endl;
+    cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(cardPurchaseUsd)) - roundIraqiPrice(usdToIqd(globalKeyUsd));
 }
