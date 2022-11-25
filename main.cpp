@@ -8,6 +8,7 @@ using namespace std;
 void printArray(vector<int> list);
 void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd);
 double totalArraySum(vector<int> list);
+double roundIraqiPrice(double originalPrice);
 // void printArray(auto *usedlist, int sizeOfList);
 int main()
 {
@@ -63,8 +64,11 @@ void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd)
             if (i == j[0])
                 g2aGamePriceUsd += j[1];
 
-    cout << "price in dollar is: "<<g2aGamePriceUsd<<'$'<<endl;
-    cout << "price in dinar with fee 500 dinar is: "<<(g2aGamePriceUsd * 1480) + 500<<" dinar"<<endl;
+    cout << "price in dollar is: " << g2aGamePriceUsd << '$' << endl;
+    double priceInIraqiDinar = (g2aGamePriceUsd * 1480) + 500;
+    cout << "price in dinar with fee 500 dinar is: " << priceInIraqiDinar << " dinar "
+         << "rounded to " << roundIraqiPrice(priceInIraqiDinar) <<endl;
+
 }
 
 void printArray(vector<int> list)
@@ -93,6 +97,15 @@ double totalArraySum(vector<int> list)
     return sum;
 }
 
-// double roundIraqiPrice(double ){
 
-// }
+double roundIraqiPrice(double originalPrice)
+{
+    double price = originalPrice;
+    while (price > 250)
+    {
+        price = price - 250;
+    }
+    double leftPrice = 250 - price;
+
+    return originalPrice + leftPrice;
+}
