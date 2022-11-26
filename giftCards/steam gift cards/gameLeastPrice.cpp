@@ -12,6 +12,7 @@ void gameLeastPrice()
     giftCard();
     //{{tl card,price in usd}}
 
+    cin.ignore();
     cout << "please enter the game title: ";
     getline(cin, gameTitle); // cyberpunk 2077
     cout << "Enter " + gameTitle << " price in steam in lira: ";
