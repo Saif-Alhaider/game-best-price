@@ -53,6 +53,7 @@ void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A)
         {300, 21.96},
     };
     vector<int> usedCards;
+    double originalPrice = gamePriceLira;
     gamePriceLira = roundUp(gamePriceLira, 10);
     for (size_t i = 6; i != -1; i--)
     {
@@ -83,7 +84,7 @@ void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A)
     cout << "gift cards to buy: ";
     printArray(usedCards);
     cout << totalArraySum(usedCards) << " tl" << endl;
-    cout << "left over: " << gamePriceLira << " tl" << endl;
+    cout << "left over: " <<totalArraySum(usedCards)- originalPrice << " tl" << endl;
 
     for (auto i : usedCards)
         for (auto j : steamGiftCardUsd)
