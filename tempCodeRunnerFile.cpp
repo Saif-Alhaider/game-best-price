@@ -1,1 +1,1 @@
-16380.0* 0.0001
+cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;

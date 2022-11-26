@@ -3,10 +3,11 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <assert.h>
 #include <algorithm>
 using namespace std;
 void printArray(vector<int> list);
-void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd);
+void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A);
 double totalArraySum(vector<int> list);
 double roundIraqiPrice(double originalPrice);
 double usdToIqd(double price)
@@ -14,11 +15,13 @@ double usdToIqd(double price)
     return (price * 1480) + 500;
 }
 void lessPrice(double cardPurchaseUsd, double globalKeyUsd);
+void headLine(string title);
+int roundUp(int numToRound, int multiple);
 int main()
 {
     string gameTitle;
     double steamPriceLira;
-    double g2aGamePriceUsd = 0;
+    double gameGiftCardPriceUsdG2A = 0;
     double g2aGameGlobalKeyPrice;
     //{{tl card,price in usd}}
 
@@ -26,14 +29,17 @@ int main()
     getline(cin, gameTitle); // cyberpunk 2077
     cout << "Enter " + gameTitle << " price in steam in lira: ";
     cin >> steamPriceLira; // 124,50 tl
-    leastPriceUsd(steamPriceLira, g2aGamePriceUsd);
     cout << "Enter " + gameTitle << " global key price in g2a in usd: ";
     cin >> g2aGameGlobalKeyPrice; // 33.92 usd
-    cout << "price of the global key in iraqi dinar is: " << usdToIqd(g2aGameGlobalKeyPrice) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice))<<" ";
-    lessPrice(g2aGamePriceUsd,g2aGameGlobalKeyPrice);
+    headLine("By Gift Card");
+    leastPriceUsd(steamPriceLira, gameGiftCardPriceUsdG2A);
+    headLine("By Global Key");
+    cout << "price of the global key in iraqi dinar with 500 fee is: " << usdToIqd(g2aGameGlobalKeyPrice) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice))<<" "<<endl;
+     headLine("best option");
+    lessPrice(gameGiftCardPriceUsdG2A,g2aGameGlobalKeyPrice);
 }
 
-void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd)
+void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A)
 {
     double steamGiftCardUsd[7][2] = {
         {10, 1.33},
@@ -45,22 +51,34 @@ void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd)
         {300, 21.96},
     };
     vector<int> usedCards;
-    for (size_t i = 6; i != 0; i--)
+    gamePriceLira = roundUp(gamePriceLira,10);
+    for (size_t i = 6; i != -1; i--)
     {
-        if (gamePriceLira > steamGiftCardUsd[i][0])
+    cashagain:
+        if (gamePriceLira >= steamGiftCardUsd[i][0])
         {
-            cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;
             usedCards.push_back(steamGiftCardUsd[i][0]);
+            cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;
             gamePriceLira = gamePriceLira - steamGiftCardUsd[i][0];
-            if (gamePriceLira > 10)
+            if (gamePriceLira > steamGiftCardUsd[i][0])
+            {
+                goto cashagain;
+            }
+
+            if (gamePriceLira < 10 && gamePriceLira != 0)
             {
                 usedCards.push_back(steamGiftCardUsd[0][0]);
             }
         }
+        else if (gamePriceLira < 10 && gamePriceLira !=0)
+        {
+            usedCards.push_back(steamGiftCardUsd[0][0]);
+            break;
+        }
     }
+
     gamePriceLira = steamGiftCardUsd[0][0] - gamePriceLira;
-    cout << string(100, '-') << endl;
-    cout << "gift cards to buy in tl" << endl;
+
     printArray(usedCards);
     cout << totalArraySum(usedCards) << " tl" << endl;
     cout << "left over: " << gamePriceLira << " tl" << endl;
@@ -68,10 +86,10 @@ void leastPriceUsd(double gamePriceLira, double &g2aGamePriceUsd)
     for (auto i : usedCards)
         for (auto j : steamGiftCardUsd)
             if (i == j[0])
-                g2aGamePriceUsd += j[1];
+                gameGiftCardPriceUsdG2A += j[1];
 
-    cout << "price in dollar is: " << g2aGamePriceUsd << '$' << endl;
-    double priceInIraqiDinar = usdToIqd(g2aGamePriceUsd);
+    cout << "price in dollar is: " << gameGiftCardPriceUsdG2A << '$' << endl;
+    double priceInIraqiDinar = usdToIqd(gameGiftCardPriceUsdG2A);
     cout << "price in dinar with fee 500 dinar is: " << priceInIraqiDinar << " dinar "
          << "rounded to " << roundIraqiPrice(priceInIraqiDinar) << endl;
 }
@@ -81,12 +99,14 @@ void printArray(vector<int> list)
     sort(list.begin(), list.end());
 
     cout << '[';
-    for (auto const &i : list)
+    for (int i = 0; i < list.size(); i++)
     {
-        if (i == list[list.size() - 1])
-            cout << i;
-        else
-            cout << i << ',';
+        if (i == list.size() - 1)
+        {
+            cout << list[i];
+            break;
+        }
+        cout << list[i] << ',';
     }
     cout << ']';
     cout << endl;
@@ -116,12 +136,28 @@ double roundIraqiPrice(double originalPrice)
 
 void lessPrice(double cardPurchaseUsd, double globalKeyUsd)
 {
+    cout << "best option: ";
     if (cardPurchaseUsd < globalKeyUsd)
     {
-        cout << "buying the game using gift cards is the best option you can save " << globalKeyUsd - cardPurchaseUsd << "$" << endl;
+        cout << "gift cards\nyou can save " << globalKeyUsd - cardPurchaseUsd << "$" << endl;
         cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(globalKeyUsd)) - roundIraqiPrice(usdToIqd(cardPurchaseUsd));
         return;
     }
-    cout << "buying the game using global key is the best option you can save " << cardPurchaseUsd - globalKeyUsd << "$" << endl;
+    cout << "global key\nyou can save " << cardPurchaseUsd - globalKeyUsd << "$" << endl;
     cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(cardPurchaseUsd)) - roundIraqiPrice(usdToIqd(globalKeyUsd));
+}
+
+void headLine(string title){
+    cout << "+" << setw(7 + title.length()) << setfill('-') << "" << setw(7) << ""
+         << "+" << endl;
+    cout.fill(' ');
+    cout << '|' << setw(7) << "" << title << setw(7) << ""
+         << "|" << endl;
+    cout << "+" << setw(7 + title.length()) << setfill('-') << "" << setw(7) << ""
+         << "+" << endl;
+}
+int roundUp(int numToRound, int multiple) 
+{
+    assert(multiple);
+    return ((numToRound + multiple - 1) / multiple) * multiple;
 }
