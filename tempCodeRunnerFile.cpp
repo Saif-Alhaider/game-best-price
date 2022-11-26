@@ -1,1 +1,1 @@
-cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;
+currency_functions.cpp
