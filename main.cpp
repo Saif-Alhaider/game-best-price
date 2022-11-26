@@ -17,12 +17,14 @@ double usdToIqd(double price)
 void lessPrice(double cardPurchaseUsd, double globalKeyUsd);
 void headLine(string title);
 int roundUp(int numToRound, int multiple);
+void giftCard();
 int main()
 {
     string gameTitle;
     double steamPriceLira;
     double gameGiftCardPriceUsdG2A = 0;
     double g2aGameGlobalKeyPrice;
+    giftCard();
     //{{tl card,price in usd}}
 
     cout << "please enter the game title: ";
@@ -51,14 +53,14 @@ void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A)
         {300, 21.96},
     };
     vector<int> usedCards;
-    gamePriceLira = roundUp(gamePriceLira,10);
+    gamePriceLira = roundUp(gamePriceLira, 10);
     for (size_t i = 6; i != -1; i--)
     {
     cashagain:
         if (gamePriceLira >= steamGiftCardUsd[i][0])
         {
             usedCards.push_back(steamGiftCardUsd[i][0]);
-            cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;
+            // cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;
             gamePriceLira = gamePriceLira - steamGiftCardUsd[i][0];
             if (gamePriceLira > steamGiftCardUsd[i][0])
             {
@@ -70,7 +72,7 @@ void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A)
                 usedCards.push_back(steamGiftCardUsd[0][0]);
             }
         }
-        else if (gamePriceLira < 10 && gamePriceLira !=0)
+        else if (gamePriceLira < 10 && gamePriceLira != 0)
         {
             usedCards.push_back(steamGiftCardUsd[0][0]);
             break;
@@ -78,7 +80,7 @@ void leastPriceUsd(double gamePriceLira, double &gameGiftCardPriceUsdG2A)
     }
 
     gamePriceLira = steamGiftCardUsd[0][0] - gamePriceLira;
-
+    cout << "gift cards to buy: ";
     printArray(usedCards);
     cout << totalArraySum(usedCards) << " tl" << endl;
     cout << "left over: " << gamePriceLira << " tl" << endl;
@@ -103,10 +105,10 @@ void printArray(vector<int> list)
     {
         if (i == list.size() - 1)
         {
-            cout << list[i];
+            cout << list[i]<<"tl";
             break;
         }
-        cout << list[i] << ',';
+        cout << list[i] <<"tl"<< ',';
     }
     cout << ']';
     cout << endl;
@@ -147,7 +149,8 @@ void lessPrice(double cardPurchaseUsd, double globalKeyUsd)
     cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(cardPurchaseUsd)) - roundIraqiPrice(usdToIqd(globalKeyUsd));
 }
 
-void headLine(string title){
+void headLine(string title)
+{
     cout << "+" << setw(7 + title.length()) << setfill('-') << "" << setw(7) << ""
          << "+" << endl;
     cout.fill(' ');
@@ -156,8 +159,30 @@ void headLine(string title){
     cout << "+" << setw(7 + title.length()) << setfill('-') << "" << setw(7) << ""
          << "+" << endl;
 }
-int roundUp(int numToRound, int multiple) 
+int roundUp(int numToRound, int multiple)
 {
     assert(multiple);
     return ((numToRound + multiple - 1) / multiple) * multiple;
+}
+
+void giftCard()
+{
+    vector<string> prices{"10tl: https://www.g2a.com/steam-gift-card-10-tl-steam-key-turkey-i10000000258168", "20tl: https://www.g2a.com/steam-gift-card-20-tl-steam-key-turkey-i10000000258189?aid=13307834", "50tl: https://www.g2a.com/steam-gift-card-50-tl-steam-key-turkey-i10000000258166", "100tl: https://www.g2a.com/steam-gift-card-100-tl-steam-key-turkey-i10000000258165", "200tl: https://www.g2a.com/steam-gift-card-western-asia-200-tl-steam-key-for-tl-currency-only-i10000000258110#", "250tl: https://www.g2a.com/steam-gift-card-250-tl-turkey-i10000083400011"};
+    headLine("steam gift cards in g2a site");
+    auto longestWord = max_element(prices.begin(), prices.end(),
+                                   [](const auto &a, const auto &b)
+                                   {
+                                       return a.size() < b.size();
+                                   });
+    auto longestWord2 = *longestWord;
+    for (size_t i = 0; i < prices.size(); i++)
+    {
+        cout << "+" << setw(7 + longestWord2.length()) << setfill('-') << "" << setw(7) << ""
+             << "+" << endl;
+        cout.fill(' ');
+        cout << '|' << setw(7) << "" << prices[i] << setw((longestWord2.length() - prices[i].length()) + 7) << ""
+             << "|" << endl;
+    }
+    cout << "+" << setw(7 + longestWord2.length()) << setfill('-') << "" << setw(7) << ""
+         << "+" << endl;
 }
