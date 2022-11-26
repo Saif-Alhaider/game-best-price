@@ -11,6 +11,9 @@ using namespace std;
 
 #include "./styling/styling.cpp"
 #include "./styling/styling.h"
+
+#include "giftCards/steam gift cards/gameLeastPrice.h"
+#include "giftCards/steam gift cards/gameLeastPrice.cpp"
 void gameLeastPrice();
 
 int main()

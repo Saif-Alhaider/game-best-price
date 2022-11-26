@@ -1,14 +1,8 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
-#include "../currency functions/currency_functions.cpp"
-#include "../currency functions/currency_functions.h"
-
-#include "../styling/styling.cpp"
-#include "../styling/styling.h"
-
 #include "gameLeastPrice.h"
+
 void gameLeastPrice()
 {
     string gameTitle;
