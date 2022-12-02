@@ -22,14 +22,14 @@ void printArray(vector<int> list)
     cout << endl;
 }
 
-void headLine(string title)
+void headLine(string title,int gap = 1)
 {
-    cout << "+" << setw(7 + title.length()) << setfill('-') << "" << setw(7) << ""
+    cout << "+" << setw(gap + title.length()) << setfill('-') << "" << setw(gap) << ""
          << "+" << endl;
     cout.fill(' ');
-    cout << '|' << setw(7) << "" << title << setw(7) << ""
+    cout << '|' << setw(gap) << "" << title << setw(gap) << ""
          << "|" << endl;
-    cout << "+" << setw(7 + title.length()) << setfill('-') << "" << setw(7) << ""
+    cout << "+" << setw(gap + title.length()) << setfill('-') << "" << setw(gap) << ""
          << "+" << endl;
 }
 
@@ -46,12 +46,12 @@ void giftCard()
     auto longestWord2 = *longestWord;
     for (size_t i = 0; i < prices.size(); i++)
     {
-        cout << "+" << setw(7 + longestWord2.length()) << setfill('-') << "" << setw(7) << ""
+        cout << "+" << setw(2 + longestWord2.length()) << setfill('-') << "" << setw(2) << ""
              << "+" << endl;
         cout.fill(' ');
-        cout << '|' << setw(7) << "" << prices[i] << setw((longestWord2.length() - prices[i].length()) + 7) << ""
+        cout << '|' << setw(2) << "" << prices[i] << setw((longestWord2.length() - prices[i].length()) + 2) << ""
              << "|" << endl;
     }
-    cout << "+" << setw(7 + longestWord2.length()) << setfill('-') << "" << setw(7) << ""
+    cout << "+" << setw(2 + longestWord2.length()) << setfill('-') << "" << setw(2) << ""
          << "+" << endl;
 }

@@ -1,3 +1,3 @@
 void printArray(vector<int> list);
-void headLine(string title);
+void headLine(string ,int );
 void giftCard();

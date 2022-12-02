@@ -20,12 +20,26 @@ int main()
 {
     int answer;
     headLine("please select what gift card you want to buy");
-    cout << "1. Steam Gift Card" << endl
-         << "2. Least Price Steam Game (buying steam key or gift card)" << endl
-         << "3. Netflix Gift Card" << endl
-         << "4. Xbox Game Pass Gift Card" << endl;
+    string choices[5] = {"convert usd price to iqd zain cash price","Steam Gift Card","Least Price Steam Game (buying steam key or gift card)","Netflix Gift Card","Xbox Game Pass Gift Card"};
+    for (size_t i = 0; i < 5; i++)cout << i+1<<". "<<choices[i]<<endl;
+    
     cin >> answer;
-    if (answer == 2)
+    if (answer == 1)
+    {
+        double transactionFee = 500; // in dinar IQD
+        double networkPaymentFee = 0.75; //in dollar $
+        double productPrice = 0;
+        cout << "enter product price in dollar: ";
+        cin >> productPrice;
+        cout << "please enter zain cash dinar to dollar transactionFee fee (500IQD): ";
+        cin >> transactionFee;
+        cout << "please enter zain cash network payment fee (0.75$): ";
+        cin >>networkPaymentFee;
+        
+        cout << "price in dollar with "<<networkPaymentFee<<'$'<<" and "<<transactionFee<<" dinar is: "<<usdToIqd(productPrice,transactionFee,networkPaymentFee)/1480<<'$'<<endl;
+        cout << "price in dinar with "<<networkPaymentFee<<'$'<<" and "<<transactionFee<<" dinar is: "<<usdToIqd(productPrice,transactionFee,networkPaymentFee)<<"IQD"<<" rounded to "<< roundIraqiPrice(usdToIqd(productPrice,transactionFee,networkPaymentFee))<<"IQD"<<endl;
+    }
+    else if (answer == 2)
     {
         
         double transactionFee = 500; // in dinar IQD
