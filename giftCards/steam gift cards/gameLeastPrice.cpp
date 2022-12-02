@@ -3,7 +3,7 @@
 using namespace std;
 #include "gameLeastPrice.h"
 
-void gameLeastPrice()
+void gameLeastPrice(double const transactionFee,double const NetworkPaymentFee)
 {
     string gameTitle;
     double gamePriceLira;
@@ -69,11 +69,11 @@ void gameLeastPrice()
                 gameGiftCardPriceUsdG2A += j[1];
 
     cout << "price in dollar is: " << gameGiftCardPriceUsdG2A << '$' << endl;
-    double priceInIraqiDinar = usdToIqd(gameGiftCardPriceUsdG2A);
-    cout << "price in dinar with fee 500 dinar is: " << priceInIraqiDinar << " dinar "
+    double priceInIraqiDinar = usdToIqd(gameGiftCardPriceUsdG2A,transactionFee,NetworkPaymentFee);
+    cout << "price in dinar with fee "<< transactionFee<<"IQD"<<"and network payment fee with "<<NetworkPaymentFee<<'$'<<"is: "<< priceInIraqiDinar << " dinar "
          << "rounded to " << roundIraqiPrice(priceInIraqiDinar) << endl;
     headLine("By Global Key");
-    cout << "price of the global key in iraqi dinar with 500 fee is: " << usdToIqd(g2aGameGlobalKeyPrice) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice)) << " " << endl;
+    cout << "price of the global key in iraqi dinar with " <<transactionFee<<"IQD"  <<" and "<<NetworkPaymentFee<<'$'<<" fee is: "<< usdToIqd(g2aGameGlobalKeyPrice,transactionFee,NetworkPaymentFee) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice,transactionFee,NetworkPaymentFee)) << " " << endl;
     headLine("best option");
-    bestPrice(gameGiftCardPriceUsdG2A, g2aGameGlobalKeyPrice);
+    bestPrice(gameGiftCardPriceUsdG2A, g2aGameGlobalKeyPrice,transactionFee,NetworkPaymentFee);
 }

@@ -23,8 +23,17 @@ int main()
     cout << "1. Steam Gift Card" << endl
          << "2. Least Price Steam Game (buying steam key or gift card)" << endl
          << "3. Netflix Gift Card" << endl
-         << "4. Xbox Game Pass Gift Card"<<endl;
+         << "4. Xbox Game Pass Gift Card" << endl;
     cin >> answer;
-    if(answer == 1)
-    gameLeastPrice();
+    if (answer == 2)
+    {
+        
+        double transactionFee = 500; // in dinar IQD
+        double networkPaymentFee = 0.75; //in dollar $
+        cout << "please enter zain cash dinar to dollar transactionFee fee (500IQD): ";
+        cin >> transactionFee;
+        cout << "please enter zain cash network payment fee (0.75$): ";
+        cin >>networkPaymentFee;
+        gameLeastPrice(transactionFee,networkPaymentFee);
+    }
 }

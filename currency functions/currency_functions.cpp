@@ -4,7 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-
 #include "./currency_functions.h"
 // 16380.5 dianr ≈ 16500 dinar
 double roundIraqiPrice(double originalPrice)
@@ -37,23 +36,22 @@ double totalArraySum(vector<int> list)
     return sum;
 }
 
-
-void bestPrice(double cardPurchaseUsd, double globalKeyUsd)
+void bestPrice(double cardPurchaseUsd, double globalKeyUsd, double const transactionFee, double const NetworkPaymentFee)
 {
     cout << "best option: ";
     if (cardPurchaseUsd < globalKeyUsd)
     {
         cout << "gift cards\nyou can save " << globalKeyUsd - cardPurchaseUsd << "$" << endl;
-        cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(globalKeyUsd)) - roundIraqiPrice(usdToIqd(cardPurchaseUsd));
+        cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(globalKeyUsd, transactionFee, NetworkPaymentFee)) - roundIraqiPrice(usdToIqd(cardPurchaseUsd, transactionFee, NetworkPaymentFee));
         return;
     }
     cout << "global key\nyou can save " << cardPurchaseUsd - globalKeyUsd << "$" << endl;
-    cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(cardPurchaseUsd)) - roundIraqiPrice(usdToIqd(globalKeyUsd));
+    cout << "or you can save in dinar " << roundIraqiPrice(usdToIqd(cardPurchaseUsd, transactionFee, NetworkPaymentFee)) - roundIraqiPrice(usdToIqd(globalKeyUsd, transactionFee, NetworkPaymentFee));
 }
 
 // convert usd to iqd with fee 500 dinar due to zain cash transaction fee
 // final price in iraqi dinar
-double usdToIqd(double price)
+double usdToIqd(double price, double const transactionFee, double const networkPaymentFee)
 {
-    return (price * 1480) + 500;
+    return ((price + networkPaymentFee) * 1480) + transactionFee;
 }
