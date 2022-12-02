@@ -9,6 +9,7 @@
         "vector": "cpp",
         "xlocale": "cpp",
         "string": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "istream": "cpp"
     }
 }
