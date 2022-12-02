@@ -48,8 +48,7 @@ int main()
         else if (!(cin >> networkPaymentFee))
             cout << "Invalid input.\n";
 
-        cout << "price in dollar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: " << usdToIqd(productPrice, transactionFee, networkPaymentFee) / 1480 << '$' << endl;
-        
+        cout << "price in dollar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: "<<fixed<<setprecision(2) << usdToIqd(productPrice, transactionFee, networkPaymentFee) / 1480 << '$' << endl;
         cout << "price in dinar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: " << usdToIqd(productPrice, transactionFee, networkPaymentFee) << "IQD"
              << " rounded to " << roundIraqiPrice(usdToIqd(productPrice, transactionFee, networkPaymentFee)) << "IQD" << endl;
     }
