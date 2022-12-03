@@ -14,7 +14,8 @@ using namespace std;
 
 #include "giftCards/steam gift cards/gameLeastPrice.h"
 #include "giftCards/steam gift cards/gameLeastPrice.cpp"
-void gameLeastPrice();
+// void gameLeastPrice();
+void defaultValue(double &transactionFee,double &networkPaymentFee);
 
 int main()
 {
@@ -27,13 +28,36 @@ int main()
     cin >> answer;
     if (answer == 1)
     {
-        double transactionFee;    // in dinar IQD
-        double networkPaymentFee; // in dollar $
+        double transactionFee = 500;    // in dinar IQD
+        double networkPaymentFee = 0.75; // in dollar $
         double productPrice = 0;
         string input;
         cout << "enter product price in dollar: ";
         cin >> productPrice;
-        cin.ignore();
+        
+        defaultValue(transactionFee,networkPaymentFee);
+        cout << "price in dollar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: "<<fixed<<setprecision(2) << usdToIqd(productPrice, transactionFee, networkPaymentFee) / 1480 << '$' << endl;
+
+        cout.unsetf(ios_base::fixed);
+        cout <<setprecision(16);
+
+
+        cout << "price in dinar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: " << usdToIqd(productPrice, transactionFee, networkPaymentFee) << "IQD"
+             << " rounded to " << roundIraqiPrice(usdToIqd(productPrice, transactionFee, networkPaymentFee)) << "IQD" << endl;
+    }
+    else if (answer == 2)
+    {
+
+        double transactionFee = 500;     // in dinar IQD
+        double networkPaymentFee = 0.75; // in dollar $
+        defaultValue(transactionFee,networkPaymentFee);
+        gameLeastPrice(transactionFee, networkPaymentFee);
+    }
+}
+
+
+void defaultValue(double &transactionFee,double &networkPaymentFee){
+    cin.ignore();
         cout << "please enter zain cash dinar to dollar transactionFee fee (500IQD): ";
 
         if (std::cin.peek() == '\n')
@@ -47,20 +71,4 @@ int main()
             networkPaymentFee = 0.75;
         else if (!(cin >> networkPaymentFee))
             cout << "Invalid input.\n";
-
-        cout << "price in dollar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: "<<fixed<<setprecision(2) << usdToIqd(productPrice, transactionFee, networkPaymentFee) / 1480 << '$' << endl;
-        cout << "price in dinar with " << networkPaymentFee << '$' << " and " << transactionFee << " dinar is: " << usdToIqd(productPrice, transactionFee, networkPaymentFee) << "IQD"
-             << " rounded to " << roundIraqiPrice(usdToIqd(productPrice, transactionFee, networkPaymentFee)) << "IQD" << endl;
-    }
-    else if (answer == 2)
-    {
-
-        double transactionFee = 500;     // in dinar IQD
-        double networkPaymentFee = 0.75; // in dollar $
-        cout << "please enter zain cash dinar to dollar transactionFee fee (500IQD): ";
-        cin >> transactionFee;
-        cout << "please enter zain cash network payment fee (0.75$): ";
-        cin >> networkPaymentFee;
-        gameLeastPrice(transactionFee, networkPaymentFee);
-    }
 }
