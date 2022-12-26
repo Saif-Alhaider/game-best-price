@@ -3,7 +3,7 @@
 using namespace std;
 #include "gameLeastPrice.h"
 
-void gameLeastPrice(double const transactionFee,double const NetworkPaymentFee)
+void gameLeastPrice(double const transactionFee, double const NetworkPaymentFee)
 {
     string gameTitle;
     double gamePriceLira;
@@ -31,33 +31,21 @@ void gameLeastPrice(double const transactionFee,double const NetworkPaymentFee)
     };
     vector<int> usedCards;
     double originalPrice = gamePriceLira;
-    gamePriceLira = roundUp(gamePriceLira, 10);
+    // gamePriceLira = roundUp(gamePriceLira, 10);
     for (size_t i = 6; i != -1; i--)
     {
-    cashagain:
-        if (gamePriceLira >= steamGiftCardUsd[i][0])
+        while (gamePriceLira >= steamGiftCardUsd[i][0])
         {
-            usedCards.push_back(steamGiftCardUsd[i][0]);
-            // cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0] << endl;
+            // cout << gamePriceLira << " - " << steamGiftCardUsd[i][0] << " = " << gamePriceLira - steamGiftCardUsd[i][0]<<endl;
             gamePriceLira = gamePriceLira - steamGiftCardUsd[i][0];
-            if (gamePriceLira > steamGiftCardUsd[i][0])
-            {
-                goto cashagain;
-            }
-
-            if (gamePriceLira < 10 && gamePriceLira != 0)
-            {
-                usedCards.push_back(steamGiftCardUsd[0][0]);
-            }
+            usedCards.push_back(steamGiftCardUsd[i][0]);
         }
-        else if (gamePriceLira < 10 && gamePriceLira != 0)
-        {
-            usedCards.push_back(steamGiftCardUsd[0][0]);
-            break;
-        }
+        
     }
+    if (gamePriceLira != 0)
+            usedCards.push_back(steamGiftCardUsd[0][0]);
 
-    gamePriceLira = steamGiftCardUsd[0][0] - gamePriceLira;
+    // gamePriceLira = steamGiftCardUsd[0][0] - gamePriceLira;
     cout << "gift cards to buy: ";
     printArray(usedCards);
     cout << totalArraySum(usedCards) << " tl" << endl;
@@ -69,11 +57,13 @@ void gameLeastPrice(double const transactionFee,double const NetworkPaymentFee)
                 gameGiftCardPriceUsdG2A += j[1];
 
     cout << "price in dollar is: " << gameGiftCardPriceUsdG2A << '$' << endl;
-    double priceInIraqiDinar = usdToIqd(gameGiftCardPriceUsdG2A,transactionFee,NetworkPaymentFee);
-    cout << "price in dinar with fee "<< transactionFee<<"IQD"<<"and network payment fee with "<<NetworkPaymentFee<<'$'<<"is: "<< priceInIraqiDinar << " dinar "
+    double priceInIraqiDinar = usdToIqd(gameGiftCardPriceUsdG2A, transactionFee, NetworkPaymentFee);
+    cout << "price in dinar with fee " << transactionFee << "IQD"
+         << "and network payment fee with " << NetworkPaymentFee << '$' << "is: " << priceInIraqiDinar << " dinar "
          << "rounded to " << roundIraqiPrice(priceInIraqiDinar) << endl;
     headLine("By Global Key");
-    cout << "price of the global key in iraqi dinar with " <<transactionFee<<"IQD"  <<" and "<<NetworkPaymentFee<<'$'<<" fee is: "<< usdToIqd(g2aGameGlobalKeyPrice,transactionFee,NetworkPaymentFee) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice,transactionFee,NetworkPaymentFee)) << " " << endl;
+    cout << "price of the global key in iraqi dinar with " << transactionFee << "IQD"
+         << " and " << NetworkPaymentFee << '$' << " fee is: " << usdToIqd(g2aGameGlobalKeyPrice, transactionFee, NetworkPaymentFee) << " rounded to " << roundIraqiPrice(usdToIqd(g2aGameGlobalKeyPrice, transactionFee, NetworkPaymentFee)) << " " << endl;
     headLine("best option");
-    bestPrice(gameGiftCardPriceUsdG2A, g2aGameGlobalKeyPrice,transactionFee,NetworkPaymentFee);
+    bestPrice(gameGiftCardPriceUsdG2A, g2aGameGlobalKeyPrice, transactionFee, NetworkPaymentFee);
 }
